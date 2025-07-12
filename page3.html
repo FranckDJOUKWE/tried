@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Étape 3</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Tu m’aimes bien ? 💖</h1>
+    <input type="text" id="reponse" placeholder="Oui ou Non">
+    <button onclick="verifier()">Valider</button>
+    <p id="message" class="error"></p>
+  </div>
+  <script>
+    if (localStorage.getItem("q2") !== "ok") {
+      window.location.href = "page2.html";
+    }
+    function verifier() {
+      var rep = document.getElementById('reponse').value.trim();
+      if (rep.toLowerCase() === "oui") {
+        localStorage.setItem("q3", "ok");
+        window.location.href = "page4.html";
+      } else {
+        document.getElementById('message').innerText = "❌ Essaie encore avec le bon cœur 😉.";
+      }
+    }
+  </script>
+</body>
+</html>

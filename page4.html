@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ton Cadeau 🎁</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>💝 Bravo ! Tu as tout réussi 💝</h1>
+    <p>Avant d’ouvrir ton cadeau, dis-moi qui tu es 😊 :</p>
+
+    <!-- Formulaire -->
+    <form id="contactForm" action="https://formspree.io/f/myzjqvqa" method="POST" style="margin-bottom: 30px;">
+      <input
+        type="text"
+        name="Nom"
+        placeholder="Ton prénom ou nom"
+        required
+        style="width:100%; padding:10px; margin-top:10px; border-radius:10px;"
+      />
+      <input
+        type="email"
+        name="Email"
+        placeholder="Ton adresse email"
+        required
+        style="width:100%; padding:10px; margin-top:10px; border-radius:10px;"
+      />
+      <textarea
+        name="Message"
+        placeholder="Un petit mot pour moi 😍"
+        required
+        style="width:100%; padding:10px; margin-top:10px; border-radius:10px;"
+      ></textarea>
+
+      <button
+        id="btnEnvoyer"
+        type="submit"
+        disabled
+        style="margin-top:10px; padding:10px 20px; border:none; background:#ec407a; color:white; border-radius:8px; cursor:not-allowed;"
+      >
+        Envoyer ❤️
+      </button>
+    </form>
+
+    <!-- Message de confirmation caché -->
+    <p
+      id="merciMessage"
+      style="display:none; color: green; font-weight: bold; margin-top: 10px;"
+    >
+      ✅ Merci ! Ton message a bien été envoyé.
+    </p>
+
+    <!-- Bouton pour afficher le cadeau -->
+    <button
+      id="btnCadeau"
+      onclick="afficherCadeau()"
+      style="padding:10px 20px; background:#8e24aa; color:#fff; border:none; border-radius:10px; cursor:pointer;"
+    >
+      🎁 Voir le cadeau
+    </button>
+
+    <!-- Cadeau masqué au départ -->
+    <div
+      id="imageCadeau"
+      style="display:none;"
+    >
+      <img
+        src="cadeau.webp"
+        alt="Ton cadeau"
+        style="max-width:100%; border-radius:15px; margin-top:20px; box-shadow: 0 0 15px #ff69b4;"
+      />
+      <p style="margin-top: 20px;">😘 J’espère que ça t’a plu.</p>
+    </div>
+  </div>
+
+  <script>
+    // Protection réponses
+    if (
+      localStorage.getItem("q1") !== "ok" ||
+      localStorage.getItem("q2") !== "ok" ||
+      localStorage.getItem("q3") !== "ok"
+    ) {
+      window.location.href = "page1.html";
+    }
+
+    // Redirection sur actualisation/reload
+    if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+      window.location.href = "page1.html";
+    }
+
+    // Reset réponses après chargement
+    window.addEventListener("load", () => {
+      localStorage.removeItem("q1");
+      localStorage.removeItem("q2");
+      localStorage.removeItem("q3");
+    });
+
+    // Afficher cadeau + activer bouton envoyer
+    function afficherCadeau() {
+      document.getElementById("btnCadeau").style.display = "none";
+      document.getElementById("imageCadeau").style.display = "block";
+      const btnEnvoyer = document.getElementById("btnEnvoyer");
+      btnEnvoyer.disabled = false;
+      btnEnvoyer.style.cursor = "pointer";
+      btnEnvoyer.style.backgroundColor = "#ec407a";
+    }
+
+    // Envoi AJAX du formulaire + message de remerciement
+    const form = document.getElementById("contactForm");
+    const merci = document.getElementById("merciMessage");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            merci.style.display = "block"; // Affiche message merci
+            form.reset(); // Reset formulaire
+
+            // Re-desactiver bouton envoyer jusqu'à nouveau clic cadeau
+            const btnEnvoyer = document.getElementById("btnEnvoyer");
+            btnEnvoyer.disabled = true;
+            btnEnvoyer.style.cursor = "not-allowed";
+            btnEnvoyer.style.backgroundColor = "#c48a9e";
+          } else {
+            alert("Oups, une erreur est survenue. Réessaie plus tard.");
+          }
+        })
+        .catch(() => {
+          alert("Oups, une erreur est survenue. Vérifie ta connexion.");
+        });
+    });
+  </script>
+</body>
+</html>

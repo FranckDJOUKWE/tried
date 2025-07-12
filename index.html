@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Étape 1</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Quel est mon nom de famille ?</h1>
+    <input type="text" id="reponse" placeholder="Ta réponse ici...">
+    <button onclick="verifier()">Valider</button>
+    <p id="message" class="error"></p>
+  </div>
+  <script>
+    function verifier() {
+      var rep = document.getElementById('reponse').value.trim();
+      if (rep.toLowerCase() === "ngankeu") {
+        localStorage.setItem("q1", "ok");
+        window.location.href = "page2.html";
+      } else {
+        document.getElementById('message').innerText = "❌ Mauvaise réponse.";
+      }
+    }
+  </script>
+</body>
+</html>

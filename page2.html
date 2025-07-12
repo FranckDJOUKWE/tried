@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Étape 2</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>J'ai quel âge ?</h1>
+    <input type="text" id="reponse" placeholder="Ta réponse ici...">
+    <button onclick="verifier()">Valider</button>
+    <p id="message" class="error"></p>
+  </div>
+  <script>
+    if (localStorage.getItem("q1") !== "ok") {
+      window.location.href = "page1.html";
+    }
+    function verifier() {
+      var rep = document.getElementById('reponse').value.trim();
+      if (rep.toLowerCase() === "19ans") {
+        localStorage.setItem("q2", "ok");
+        window.location.href = "page3.html";
+      } else {
+        document.getElementById('message').innerText = "❌ Mauvaise réponse.";
+      }
+    }
+  </script>
+</body>
+</html>
